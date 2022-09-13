@@ -110,6 +110,7 @@ def draw(bbox, name, frame):
 
 def special_draw(img, box, landmarsk, name, score=100):
     """draw a bounding box on image"""
+    box = box.numpy().astype('int').tolist()
     color = (148, 133, 0)
     tl = round(0.002 * (img.shape[0] + img.shape[1]) / 2) + 1  # line thickness
     c1, c2 = (box[0], box[1]), (box[2], box[3])
@@ -122,7 +123,7 @@ def special_draw(img, box, landmarsk, name, score=100):
     score = 100-(score*100/1.4)
     score = 0 if score < 0 else score
     bar = (box[3] + 2) - (box[1] - 2)
-    score_final = bar - (score*bar/100)
+    score_final = int(bar - (score*bar/100))
     cv2.rectangle(img, (box[2] + 1, box[1] - 2 + score_final), (box[2] + (tl+5), box[3] + 2), color, -1)
     # draw label
     tf = max(tl - 1, 1)  # font thickness
